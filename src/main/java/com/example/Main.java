@@ -18,6 +18,7 @@ public class Main {
             <body>
               <h1>Hello from Java CI/CD!</h1>
               <p>Este HTML fue generado desde Java y desplegado con GitHub Actions.</p>
+              <p><a href="checkstyle.html">Ver reporte Checkstyle</a></p>
             </body>
             </html>
             """;

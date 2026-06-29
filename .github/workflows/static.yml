@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   build:
-    name: Build and test Java project
+    name: Build, test, checkstyle and generate site
     runs-on: ubuntu-latest
 
     steps:
@@ -31,16 +31,23 @@ jobs:
           java-version: "21"
           cache: "maven"
 
-      - name: Build and run tests
+      - name: Build, test and run Checkstyle
         run: mvn -B clean verify
 
       - name: Generate static HTML with Java
         run: mvn -B exec:java
 
+      - name: Generate Checkstyle HTML report
+        run: |
+          mvn -B checkstyle:checkstyle
+          cp target/reports/checkstyle.html output/checkstyle.html
+
       - name: Verify generated site
         run: |
           test -f output/index.html
+          test -f output/checkstyle.html
           grep "Hello from Java CI/CD!" output/index.html
+          grep "Checkstyle" output/checkstyle.html
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v6
